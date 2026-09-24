@@ -1,26 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "/Users/Oda/Documents/Skole/H2026/WebApp/ITPE3200_StudyRoom_MVC/MVC/MVC.csproj": {}
+    "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {}
   },
   "projects": {
-    "/Users/Oda/Documents/Skole/H2026/WebApp/ITPE3200_StudyRoom_MVC/MVC/MVC.csproj": {
+    "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/Oda/Documents/Skole/H2026/WebApp/ITPE3200_StudyRoom_MVC/MVC/MVC.csproj",
+        "projectUniqueName": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
         "projectName": "MVC",
-        "projectPath": "/Users/Oda/Documents/Skole/H2026/WebApp/ITPE3200_StudyRoom_MVC/MVC/MVC.csproj",
-        "packagesPath": "/Users/Oda/.nuget/packages/",
-        "outputPath": "/Users/Oda/Documents/Skole/H2026/WebApp/ITPE3200_StudyRoom_MVC/MVC/obj/",
+        "projectPath": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
+        "packagesPath": "C:\\Users\\bekke\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/Oda/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\bekke\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
         ],
         "sources": {
-          "/usr/local/Cellar/dotnet/10.0.400/libexec/library-packs": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -65,7 +64,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/Cellar/dotnet/10.0.400/libexec/sdk/10.0.400/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
