@@ -1,6 +1,6 @@
 namespace MVC.Models;
 
-public class RoomModel
+public class RoomsModel
 {
     public int RoomId { get; set; }
 

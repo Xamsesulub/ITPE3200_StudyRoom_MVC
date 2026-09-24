@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {}
+    "C:\\Users\\erikb\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {}
   },
   "projects": {
-    "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {
+    "C:\\Users\\erikb\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
+        "projectUniqueName": "C:\\Users\\erikb\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
         "projectName": "MVC",
-        "projectPath": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
-        "packagesPath": "C:\\Users\\bekke\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\bekke\\Documents\\ITPE3200\\ITPE3200_StudyRoom_MVC\\obj\\",
+        "projectPath": "C:\\Users\\erikb\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
+        "packagesPath": "C:\\Users\\erikb\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\erikb\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\bekke\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "C:\\Users\\erikb\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -45,6 +45,12 @@
         "net10.0": {
           "framework": "net10.0",
           "targetAlias": "net10.0",
+          "dependencies": {
+            "Microsoft.EntityFrameworkCore.Sqlite": {
+              "target": "Package",
+              "version": "[10.*, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
