@@ -20,41 +20,49 @@ build_property.TargetFrameworkVersion = v10.0
 build_property.EntryPointFilePath = 
 build_property.RootNamespace = MVC
 build_property.RootNamespace = MVC
-build_property.ProjectDir = C:\Users\erikb\Documents\itpe3200\ITPE3200_StudyRoom_MVC\
+build_property.ProjectDir = /Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 build_property.RazorLangVersion = 10.0
 build_property.SupportLocalizedComponentNames = 
 build_property.GenerateRazorMetadataSourceChecksumAttributes = 
-build_property.MSBuildProjectDirectory = C:\Users\erikb\Documents\itpe3200\ITPE3200_StudyRoom_MVC
+build_property.MSBuildProjectDirectory = /Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC
 build_property._RazorSourceGeneratorDebug = 
 build_property.EffectiveAnalysisLevelStyle = 10.0
 build_property.EnableCodeStyleSeverity = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/Home/Index.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxJbmRleC5jc2h0bWw=
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Account/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvQWNjb3VudC9Mb2dpbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/Home/Privacy.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSG9tZVxQcml2YWN5LmNzaHRtbA==
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Home/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9JbmRleC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/Shared/Error.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Home/Privacy.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Rooms/Table.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvUm9vbXMvVGFibGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/_ViewImports.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL0Vycm9yLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/_ViewStart.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/erikb/Documents/itpe3200/ITPE3200_StudyRoom_MVC/Views/Shared/_Layout.cshtml]
-build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
-build_metadata.AdditionalFiles.CssScope = b-q0a04yuu0e
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvU2hhcmVkL19MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-tgi9xj0eup

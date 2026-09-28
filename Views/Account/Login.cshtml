@@ -1,0 +1,80 @@
+@{
+    ViewData["Title"] = "Logg inn";
+}
+
+<style>
+    .login-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 2rem;
+    }
+
+    .login-card {
+        width: 100%;
+        max-width: 380px;
+        padding: 2rem;
+        border: 1px solid #dee2e6;
+        border-radius: 0.5rem;
+        background-color: #fff;
+    }
+
+    .login-card h1 {
+        font-size: 1.75rem;
+        margin-bottom: 1.5rem;
+        text-align: center;
+    }
+
+    .login-field {
+        margin-bottom: 1rem;
+    }
+
+    .login-field label {
+        display: block;
+        margin-bottom: 0.25rem;
+        font-weight: 500;
+    }
+
+    .login-field input {
+        width: 100%;
+        padding: 0.5rem 0.75rem;
+        border: 1px solid #ced4da;
+        border-radius: 0.25rem;
+        box-sizing: border-box;
+    }
+
+    .login-button {
+        width: 100%;
+        padding: 0.6rem;
+        border: none;
+        border-radius: 0.25rem;
+        background-color: #0d6efd;
+        color: #fff;
+        font-size: 1rem;
+        cursor: pointer;
+    }
+
+    .login-button:hover {
+        background-color: #0b5ed7;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="login-card">
+        <h1>Logg inn</h1>
+
+        <!-- Kun HTML/CSS - ingen validering. Sender deg rett videre til rom-siden. -->
+        <form asp-controller="Rooms" asp-action="Table" method="get">
+            <div class="login-field">
+                <label for="username">Brukernavn</label>
+                <input type="text" id="username" name="username" placeholder="Brukernavn" />
+            </div>
+
+            <div class="login-field">
+                <label for="password">Passord</label>
+                <input type="password" id="password" name="password" placeholder="Passord" />
+            </div>
+
+            <button type="submit" class="login-button">Logg inn</button>
+        </form>
+    </div>
+</div>

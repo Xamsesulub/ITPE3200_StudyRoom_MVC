@@ -1,0 +1,37 @@
+@model MVC.ViewModels.RoomsViewModel
+@{
+    ViewData["Title"] = "Finn grupperom";
+}
+
+<h1>Finn grupperom</h1>
+
+@if (Model.Rooms.Count == 0)
+{
+    <p>Ingen rom registrert ennå.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Bygg</th>
+                <th>Etasje</th>
+                <th>Kapasitet</th>
+                <th>Skjerm</th>
+                <th>Whiteboard</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var room in Model.Rooms)
+            {
+                <tr>
+                    <td>@room.RoomBuilding</td>
+                    <td>@room.RoomFloor</td>
+                    <td>@room.RoomCapacity</td>
+                    <td>@(room.RoomScreen ? "Ja" : "Nei")</td>
+                    <td>@(room.RoomWhiteboard ? "Ja" : "Nei")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
