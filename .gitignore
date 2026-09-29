@@ -9,3 +9,9 @@
 
 **/appsettings.Development.json
 **/Logs/
+
+# SQLite-databasen genereres lokalt av EF-migrasjonene (Migrations/-mappen holdes i Git,
+# selve .db-filen skal ikke deles - unngår binærkonflikter når flere jobber med data samtidig)
+*.db
+*.db-shm
+*.db-wal
