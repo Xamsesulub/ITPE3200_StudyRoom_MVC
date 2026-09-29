@@ -1,0 +1,55 @@
+@model MVC.Models.RoomsModel
+@{
+    ViewData["Title"] = "Rediger rom";
+}
+
+<h1>Rediger rom</h1>
+<p class="text-secondary">Oppdater informasjonen om grupperommet.</p>
+
+<div class="row">
+    <div class="col-md-6 col-lg-5">
+        <form asp-action="Edit" asp-route-id="@Model.RoomId" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
+
+            <div class="mb-3">
+                <label asp-for="RoomId" class="form-label"></label>
+                <input asp-for="RoomId" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RoomBuilding" class="form-label"></label>
+                <input asp-for="RoomBuilding" class="form-control" />
+                <span asp-validation-for="RoomBuilding" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RoomFloor" class="form-label"></label>
+                <input asp-for="RoomFloor" class="form-control" />
+                <span asp-validation-for="RoomFloor" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="RoomCapacity" class="form-label"></label>
+                <input asp-for="RoomCapacity" class="form-control" />
+                <span asp-validation-for="RoomCapacity" class="text-danger"></span>
+            </div>
+
+            <div class="form-check mb-3">
+                <input asp-for="RoomScreen" class="form-check-input" />
+                <label asp-for="RoomScreen" class="form-check-label"></label>
+            </div>
+
+            <div class="form-check mb-4">
+                <input asp-for="RoomWhiteboard" class="form-check-input" />
+                <label asp-for="RoomWhiteboard" class="form-check-label"></label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Lagre endringer</button>
+            <a asp-action="Manage" class="btn btn-outline-secondary">Avbryt</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
