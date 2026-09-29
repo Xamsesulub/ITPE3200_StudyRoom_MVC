@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/MVC.csproj": {}
+    "C:\\Users\\Erik\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {}
   },
   "projects": {
-    "/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/MVC.csproj": {
+    "C:\\Users\\Erik\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/MVC.csproj",
+        "projectUniqueName": "C:\\Users\\Erik\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
         "projectName": "MVC",
-        "projectPath": "/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/MVC.csproj",
-        "packagesPath": "/Users/kristofferaarsten/.nuget/packages/",
-        "outputPath": "/Users/kristofferaarsten/Documents/OsloMet/5. semester/DAVE 3625 -  Kunstlig Intellegens/ITPE3200_StudyRoom_MVC/obj/",
+        "projectPath": "C:\\Users\\Erik\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\MVC.csproj",
+        "packagesPath": "C:\\Users\\Erik\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Erik\\Documents\\itpe3200\\ITPE3200_StudyRoom_MVC\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/Users/kristofferaarsten/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Erik\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net10.0"
@@ -76,7 +76,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/x64/sdk/10.0.401/PortableRuntimeIdentifierGraph.json",
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.400/PortableRuntimeIdentifierGraph.json",
           "packagesToPrune": {
             "Microsoft.AspNetCore": "(,10.0.32767]",
             "Microsoft.AspNetCore.Antiforgery": "(,10.0.32767]",
