@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using MVC.Models;
 using MVC.ViewModels;
 using MVC.DAL;
@@ -16,7 +17,7 @@ public class RoomsController : Controller
 
     public IActionResult Table()
     {
-        List<RoomsModel> rooms = _context.Rooms.ToList();
+        List<RoomsModel> rooms = _context.Rooms.AsNoTracking().ToList();
         var roomsViewModel = new RoomsViewModel(rooms, "Table");
         return View(roomsViewModel);
     }
