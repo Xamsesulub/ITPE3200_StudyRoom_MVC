@@ -136,12 +136,26 @@ public class RoomsController : Controller
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
-        [Bind("RoomBuilding,RoomFloor,RoomCapacity,RoomScreen,RoomWhiteboard")]
+        [Bind("RoomId,RoomBuilding,RoomFloor,RoomCapacity,RoomScreen,RoomWhiteboard")]
         RoomsModel room)
     {
         if (!ModelState.IsValid)
         {
             _logger.LogWarning("Forsøk på å opprette rom med ugyldige verdier.");
+            return View(room);
+        }
+
+        bool roomNumberExists = await _context.Rooms
+            .AnyAsync(existingRoom => existingRoom.RoomId == room.RoomId);
+
+        if (roomNumberExists)
+        {
+            _logger.LogWarning(
+                "Forsøk på å opprette et rom med eksisterende romnummer {RoomId}.",
+                room.RoomId);
+            ModelState.AddModelError(
+                nameof(RoomsModel.RoomId),
+                "Romnummeret er allerede registrert.");
             return View(room);
         }
 

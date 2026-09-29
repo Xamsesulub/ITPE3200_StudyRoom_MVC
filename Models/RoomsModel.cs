@@ -5,6 +5,8 @@ namespace MVC.Models;
 public class RoomsModel
 {
     [Key]
+    [Range(1, 999999, ErrorMessage = "Romnummer må være mellom 1 og 999999.")]
+    [Display(Name = "Rom")]
     public int RoomId { get; set; }
 
     [Required(ErrorMessage = "Bygg må fylles ut.")]
