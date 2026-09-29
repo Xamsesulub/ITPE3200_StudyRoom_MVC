@@ -13,6 +13,11 @@
     <div class="alert alert-success" role="alert">@successMessage</div>
 }
 
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-danger" role="alert">@errorMessage</div>
+}
+
 @if (Model.Rooms.Count == 0)
 {
     <p>Ingen rom registrert ennå.</p>
@@ -39,9 +44,15 @@ else
                     <td>@room.RoomCapacity</td>
                     <td>@(room.RoomScreen ? "Ja" : "Nei")</td>
                     <td>@(room.RoomWhiteboard ? "Ja" : "Nei")</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@room.RoomId" class="btn btn-outline-secondary btn-sm">
+                    <td class="d-flex gap-2 flex-wrap">
+                        <a asp-action="Details" asp-route-id="@room.RoomId" class="btn btn-outline-primary btn-sm">
                             Detaljer
+                        </a>
+                        <a asp-action="Edit" asp-route-id="@room.RoomId" class="btn btn-outline-secondary btn-sm">
+                            Rediger
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@room.RoomId" class="btn btn-outline-danger btn-sm">
+                            Slett
                         </a>
                     </td>
                 </tr>

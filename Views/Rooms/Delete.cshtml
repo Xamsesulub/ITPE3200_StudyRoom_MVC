@@ -1,0 +1,35 @@
+@model MVC.Models.RoomsModel
+@{
+    ViewData["Title"] = "Slett rom";
+}
+
+<h1>Slett rom</h1>
+
+<div class="alert alert-warning" role="alert">
+    Er du sikker på at du vil slette dette rommet?
+</div>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h2 class="h5 card-title">@Model.RoomBuilding</h2>
+        <dl class="row mb-0">
+            <dt class="col-sm-4">Etasje</dt>
+            <dd class="col-sm-8">@Model.RoomFloor</dd>
+
+            <dt class="col-sm-4">Kapasitet</dt>
+            <dd class="col-sm-8">@Model.RoomCapacity</dd>
+
+            <dt class="col-sm-4">Skjerm</dt>
+            <dd class="col-sm-8">@(Model.RoomScreen ? "Ja" : "Nei")</dd>
+
+            <dt class="col-sm-4">Whiteboard</dt>
+            <dd class="col-sm-8">@(Model.RoomWhiteboard ? "Ja" : "Nei")</dd>
+        </dl>
+    </div>
+</div>
+
+<form asp-action="Delete" asp-route-id="@Model.RoomId" method="post">
+    <input type="hidden" asp-for="RoomId" />
+    <button type="submit" class="btn btn-danger">Ja, slett rommet</button>
+    <a asp-action="Table" class="btn btn-outline-secondary">Avbryt</a>
+</form>

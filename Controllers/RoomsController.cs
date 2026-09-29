@@ -98,4 +98,157 @@ public class RoomsController : Controller
             return View(room);
         }
     }
+
+    [HttpGet]
+    public async Task<IActionResult> Edit(int? id)
+    {
+        if (id is null)
+        {
+            _logger.LogWarning("Redigeringssiden ble åpnet uten rom-ID.");
+            return BadRequest();
+        }
+
+        RoomsModel? room = await _context.Rooms.FindAsync(id);
+
+        if (room is null)
+        {
+            _logger.LogWarning(
+                "Rom med ID {RoomId} ble ikke funnet ved redigering.",
+                id);
+            return NotFound();
+        }
+
+        return View(room);
+    }
+
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Edit(
+        int id,
+        [Bind("RoomId,RoomBuilding,RoomFloor,RoomCapacity,RoomScreen,RoomWhiteboard")]
+        RoomsModel room)
+    {
+        if (id != room.RoomId)
+        {
+            _logger.LogWarning(
+                "Rom-ID i adressen ({RouteId}) var ulik rom-ID i skjemaet ({FormId}).",
+                id,
+                room.RoomId);
+            return BadRequest();
+        }
+
+        if (!ModelState.IsValid)
+        {
+            _logger.LogWarning(
+                "Forsøk på å oppdatere rom med ID {RoomId} med ugyldige verdier.",
+                room.RoomId);
+            return View(room);
+        }
+
+        try
+        {
+            _context.Rooms.Update(room);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation(
+                "Rom med ID {RoomId} ble oppdatert.",
+                room.RoomId);
+
+            TempData["SuccessMessage"] = "Rommet ble oppdatert.";
+            return RedirectToAction(nameof(Table));
+        }
+        catch (DbUpdateConcurrencyException exception)
+        {
+            bool roomExists = await _context.Rooms
+                .AnyAsync(existingRoom => existingRoom.RoomId == room.RoomId);
+
+            if (!roomExists)
+            {
+                _logger.LogWarning(
+                    exception,
+                    "Rom med ID {RoomId} ble slettet før det kunne oppdateres.",
+                    room.RoomId);
+                return NotFound();
+            }
+
+            _logger.LogError(
+                exception,
+                "En konflikt oppstod ved oppdatering av rom med ID {RoomId}.",
+                room.RoomId);
+            ModelState.AddModelError(
+                string.Empty,
+                "Rommet ble endret av noen andre. Last siden på nytt og prøv igjen.");
+            return View(room);
+        }
+        catch (DbUpdateException exception)
+        {
+            _logger.LogError(
+                exception,
+                "Kunne ikke oppdatere rom med ID {RoomId}.",
+                room.RoomId);
+            ModelState.AddModelError(
+                string.Empty,
+                "Rommet kunne ikke oppdateres. Prøv igjen senere.");
+            return View(room);
+        }
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Delete(int? id)
+    {
+        if (id is null)
+        {
+            _logger.LogWarning("Slettesiden ble åpnet uten rom-ID.");
+            return BadRequest();
+        }
+
+        RoomsModel? room = await _context.Rooms
+            .AsNoTracking()
+            .FirstOrDefaultAsync(room => room.RoomId == id);
+
+        if (room is null)
+        {
+            _logger.LogWarning(
+                "Rom med ID {RoomId} ble ikke funnet ved sletting.",
+                id);
+            return NotFound();
+        }
+
+        return View(room);
+    }
+
+    [HttpPost, ActionName("Delete")]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> DeleteConfirmed(int id)
+    {
+        RoomsModel? room = await _context.Rooms.FindAsync(id);
+
+        if (room is null)
+        {
+            _logger.LogWarning(
+                "Rom med ID {RoomId} ble ikke funnet da sletting ble bekreftet.",
+                id);
+            return NotFound();
+        }
+
+        try
+        {
+            _context.Rooms.Remove(room);
+            await _context.SaveChangesAsync();
+
+            _logger.LogInformation("Rom med ID {RoomId} ble slettet.", id);
+            TempData["SuccessMessage"] = "Rommet ble slettet.";
+            return RedirectToAction(nameof(Table));
+        }
+        catch (DbUpdateException exception)
+        {
+            _logger.LogError(
+                exception,
+                "Kunne ikke slette rom med ID {RoomId}.",
+                id);
+            TempData["ErrorMessage"] =
+                "Rommet kunne ikke slettes. Det kan være knyttet til en reservasjon.";
+            return RedirectToAction(nameof(Table));
+        }
+    }
 }
