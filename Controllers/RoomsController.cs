@@ -17,7 +17,76 @@ public class RoomsController : Controller
         _logger = logger;
     }
 
-    public async Task<IActionResult> Table()
+    [HttpGet]
+    public async Task<IActionResult> Index(
+        string? building,
+        int? floor,
+        int? minimumCapacity,
+        bool hasScreen = false,
+        bool hasWhiteboard = false)
+    {
+        try
+        {
+            IQueryable<RoomsModel> query = _context.Rooms.AsNoTracking();
+
+            if (!string.IsNullOrWhiteSpace(building))
+            {
+                string buildingFilter = building.Trim();
+                query = query.Where(room =>
+                    EF.Functions.Like(room.RoomBuilding, $"%{buildingFilter}%"));
+            }
+
+            if (floor is >= 0)
+            {
+                query = query.Where(room => room.RoomFloor == floor);
+            }
+
+            if (minimumCapacity is > 0)
+            {
+                query = query.Where(room => room.RoomCapacity >= minimumCapacity);
+            }
+
+            if (hasScreen)
+            {
+                query = query.Where(room => room.RoomScreen);
+            }
+
+            if (hasWhiteboard)
+            {
+                query = query.Where(room => room.RoomWhiteboard);
+            }
+
+            List<RoomsModel> rooms = await query
+                .OrderBy(room => room.RoomBuilding)
+                .ThenBy(room => room.RoomFloor)
+                .ToListAsync();
+
+            var roomsViewModel = new RoomsViewModel(rooms, "Index")
+            {
+                Building = building,
+                Floor = floor,
+                MinimumCapacity = minimumCapacity,
+                HasScreen = hasScreen,
+                HasWhiteboard = hasWhiteboard
+            };
+
+            return View(roomsViewModel);
+        }
+        catch (Exception exception)
+        {
+            _logger.LogError(exception, "Kunne ikke søke etter rom i databasen.");
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+    }
+
+    [HttpGet]
+    public IActionResult Table()
+    {
+        return RedirectToAction(nameof(Index));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> Manage()
     {
         try
         {
@@ -27,12 +96,12 @@ public class RoomsController : Controller
                 .ThenBy(room => room.RoomFloor)
                 .ToListAsync();
 
-            var roomsViewModel = new RoomsViewModel(rooms, "Table");
+            var roomsViewModel = new RoomsViewModel(rooms, "Manage");
             return View(roomsViewModel);
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Kunne ikke hente rom fra databasen.");
+            _logger.LogError(exception, "Kunne ikke hente rom for administrasjon.");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -87,7 +156,7 @@ public class RoomsController : Controller
                 room.RoomBuilding);
 
             TempData["SuccessMessage"] = "Rommet ble opprettet.";
-            return RedirectToAction(nameof(Table));
+            return RedirectToAction(nameof(Manage));
         }
         catch (DbUpdateException exception)
         {
@@ -155,7 +224,7 @@ public class RoomsController : Controller
                 room.RoomId);
 
             TempData["SuccessMessage"] = "Rommet ble oppdatert.";
-            return RedirectToAction(nameof(Table));
+            return RedirectToAction(nameof(Manage));
         }
         catch (DbUpdateConcurrencyException exception)
         {
@@ -238,7 +307,7 @@ public class RoomsController : Controller
 
             _logger.LogInformation("Rom med ID {RoomId} ble slettet.", id);
             TempData["SuccessMessage"] = "Rommet ble slettet.";
-            return RedirectToAction(nameof(Table));
+            return RedirectToAction(nameof(Manage));
         }
         catch (DbUpdateException exception)
         {
@@ -248,7 +317,7 @@ public class RoomsController : Controller
                 id);
             TempData["ErrorMessage"] =
                 "Rommet kunne ikke slettes. Det kan være knyttet til en reservasjon.";
-            return RedirectToAction(nameof(Table));
+            return RedirectToAction(nameof(Manage));
         }
     }
 }
