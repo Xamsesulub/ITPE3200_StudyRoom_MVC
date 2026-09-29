@@ -18,7 +18,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> Index(
+    public async Task<IActionResult> Table(
         string? building,
         int? floor,
         int? minimumCapacity,
@@ -61,7 +61,7 @@ public class RoomsController : Controller
                 .ThenBy(room => room.RoomFloor)
                 .ToListAsync();
 
-            var roomsViewModel = new RoomsViewModel(rooms, "Index")
+            var roomsViewModel = new RoomsViewModel(rooms, "Table")
             {
                 Building = building,
                 Floor = floor,
@@ -80,9 +80,9 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
-    public IActionResult Table()
+    public IActionResult Index()
     {
-        return RedirectToAction(nameof(Index));
+        return RedirectToAction(nameof(Table));
     }
 
     [HttpGet]
