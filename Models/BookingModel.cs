@@ -8,6 +8,7 @@ namespace MVC.Models
         [Key]
         public int BookingId {get;set;}
         public int RoomId {get;set;}
+        public RoomsModel Room {get;set;} = default!; // For å koble tabellene i bakhånd
         public int UserId {get;set;}
 
         public DateTime StartTime {get;set;}
