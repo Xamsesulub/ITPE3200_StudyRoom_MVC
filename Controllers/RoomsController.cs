@@ -8,15 +8,20 @@ namespace MVC.Controllers;
 
 public class RoomsController : Controller
 {
+    // The database context gives the controller access to room data,
+    // while the logger records errors and important events.
     private readonly RoomsDbContext _context;
     private readonly ILogger<RoomsController> _logger;
 
+    // ASP.NET Core provides the database context and logger through dependency injection.
     public RoomsController(RoomsDbContext context, ILogger<RoomsController> logger)
     {
         _context = context;
         _logger = logger;
     }
 
+    // Displays the room search page and filters rooms using the user's search choices.
+    // All filters are optional, so the page displays every room when no filters are selected.
     [HttpGet]
     public async Task<IActionResult> Table(
         string? building,
@@ -27,6 +32,7 @@ public class RoomsController : Controller
     {
         try
         {
+            // AsNoTracking is used because these rooms are only displayed and will not be changed.
             IQueryable<RoomsModel> query = _context.Rooms.AsNoTracking();
 
             if (!string.IsNullOrWhiteSpace(building))
@@ -56,11 +62,14 @@ public class RoomsController : Controller
                 query = query.Where(room => room.RoomWhiteboard);
             }
 
+            // The completed query is sorted and then executed against the database.
             List<RoomsModel> rooms = await query
                 .OrderBy(room => room.RoomBuilding)
                 .ThenBy(room => room.RoomFloor)
                 .ToListAsync();
 
+            // The view model contains both the results and the selected filters,
+            // allowing the page to keep the user's search values after a search.
             var roomsViewModel = new RoomsViewModel(rooms, "Table")
             {
                 Building = building,
@@ -74,17 +83,20 @@ public class RoomsController : Controller
         }
         catch (Exception exception)
         {
+            // Technical details are written to the log while the user receives a safe error response.
             _logger.LogError(exception, "Kunne ikke søke etter rom i databasen.");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
+    // Redirects the default Rooms address to the room search page.
     [HttpGet]
     public IActionResult Index()
     {
         return RedirectToAction(nameof(Table));
     }
 
+    // Loads every room as read-only data for the administration page.
     [HttpGet]
     public async Task<IActionResult> Manage()
     {
@@ -106,6 +118,7 @@ public class RoomsController : Controller
         }
     }
 
+    // Finds one room by its ID and displays its complete information.
     public async Task<IActionResult> Details(int? id)
     {
         if (id is null)
@@ -127,12 +140,14 @@ public class RoomsController : Controller
         return View(room);
     }
 
+    // Displays an empty form for registering a new room.
     [HttpGet]
     public IActionResult Create()
     {
         return View();
     }
 
+    // Validates the submitted room and saves it when all values are valid.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Create(
@@ -145,6 +160,7 @@ public class RoomsController : Controller
             return View(room);
         }
 
+        // Room numbers must be unique because RoomId is the primary key.
         bool roomNumberExists = await _context.Rooms
             .AnyAsync(existingRoom => existingRoom.RoomId == room.RoomId);
 
@@ -182,6 +198,7 @@ public class RoomsController : Controller
         }
     }
 
+    // Loads an existing room and displays its current values in the edit form.
     [HttpGet]
     public async Task<IActionResult> Edit(int? id)
     {
@@ -204,6 +221,7 @@ public class RoomsController : Controller
         return View(room);
     }
 
+    // Validates the edited values and saves the changes to the database.
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Edit(
@@ -242,6 +260,7 @@ public class RoomsController : Controller
         }
         catch (DbUpdateConcurrencyException exception)
         {
+            // A concurrency error can occur if another user changes or deletes the room first.
             bool roomExists = await _context.Rooms
                 .AnyAsync(existingRoom => existingRoom.RoomId == room.RoomId);
 
@@ -276,6 +295,7 @@ public class RoomsController : Controller
         }
     }
 
+    // Displays the selected room so the user can confirm the deletion.
     [HttpGet]
     public async Task<IActionResult> Delete(int? id)
     {
@@ -300,6 +320,7 @@ public class RoomsController : Controller
         return View(room);
     }
 
+    // Deletes the room only after the user has confirmed the action.
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteConfirmed(int id)
