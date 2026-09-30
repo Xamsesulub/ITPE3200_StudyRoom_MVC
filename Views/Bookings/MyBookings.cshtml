@@ -14,6 +14,15 @@
     </a>
 </div>
 
+@if (TempData["SuccessMessage"] is string successMessage)
+{
+    <div class="alert alert-success">@successMessage</div>
+}
+@if (TempData["ErrorMessage"] is string errorMessage)
+{
+    <div class="alert alert-danger">@errorMessage</div>
+}
+
 <h6 class="text-secondary mb-3">Kommende</h6>
 
 @if (Model.Upcoming.Count == 0)
@@ -39,8 +48,10 @@ else
                     </p>
                 </div>
                 <div class="d-flex gap-2">
-                    <a asp-action="Reserve" asp-route-id="@booking.RoomId" class="btn btn-outline-secondary btn-sm">Endre</a>
-                    <button type="button" class="btn btn-outline-danger btn-sm">Avlys</button>
+                    <form asp-controller="Bookings" asp-action="Cancel" asp-route-id="@booking.BookingId"
+                          method="post">
+                        <button type="submit" class="btn btn-outline-danger btn-sm">Avbestill</button>
+                    </form>
                 </div>
             </div>
         </div>

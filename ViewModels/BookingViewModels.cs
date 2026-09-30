@@ -30,6 +30,7 @@ public class ReserveRoomViewModel
     public DateTime Date { get; set; } = DateTime.Today;
 
     [Display(Name = "Tidspunkt")]
+    [Required(ErrorMessage = "Velg et tidspunkt.")]
     public string SelectedSlot { get; set; } = string.Empty;
 
     [Display(Name = "Antall personer")]
@@ -45,6 +46,8 @@ public class ReserveRoomViewModel
 
 public class BookingListItemViewModel
 {
+    public int BookingId { get; set; }
+
     public int RoomId { get; set; }
 
     public string RoomBuilding { get; set; } = string.Empty;

@@ -87,6 +87,8 @@ else
                         <td class="text-end">
                             <a asp-action="Details" asp-route-id="@room.RoomId"
                                class="btn btn-outline-primary btn-sm">Detaljer</a>
+                            <a asp-controller="Bookings" asp-action="Reserve" asp-route-id="@room.RoomId"
+                               class="btn btn-primary btn-sm">Reserver</a>
                         </td>
                     </tr>
                 }

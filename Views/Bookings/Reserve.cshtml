@@ -10,104 +10,84 @@
     </ol>
 </nav>
 
-<h2 class="mb-4">Reserver rom</h2>
+<h1 class="mb-4">Reserver rom @Model.RoomId</h1>
 
-<form asp-action="Reserve" method="post">
-    @if (!ViewData.ModelState.IsValid)
-    {
-        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
-    }
-
-    <input type="hidden" asp-for="RoomId" />
-    <input type="hidden" asp-for="RoomBuilding" />
-    <input type="hidden" asp-for="RoomFloor" />
-    <input type="hidden" asp-for="RoomCapacity" />
-    <input type="hidden" asp-for="RoomScreen" />
-    <input type="hidden" asp-for="RoomWhiteboard" />
-
-    <div class="row g-4">
-        <div class="col-lg-8">
-            <div class="card">
-                <div class="card-body p-4">
-                    <h5 class="card-title mb-4">Velg tidspunkt</h5>
-
-                    <div class="mb-4" style="max-width: 240px;">
-                        <label asp-for="Date" class="form-label fw-bold"></label>
-                        <input asp-for="Date" type="date" class="form-control" />
-                        <span asp-validation-for="Date" class="text-danger"></span>
+<div class="row g-4">
+    <div class="col-lg-8">
+        <div class="card mb-4">
+            <div class="card-body">
+                <form asp-controller="Bookings" asp-action="Reserve" method="get"
+                      class="row g-3 align-items-end">
+                    <input type="hidden" name="id" value="@Model.RoomId" />
+                    <div class="col-sm-6">
+                        <label for="date" class="form-label fw-bold">Dato</label>
+                        <input id="date" name="date" type="date"
+                               value="@Model.Date.ToString("yyyy-MM-dd")"
+                               min="@DateTime.Today.ToString("yyyy-MM-dd")"
+                               class="form-control" />
                     </div>
-
-                    <div class="mb-4">
-                        <span class="form-label fw-bold d-block">Ledige tider</span>
-                        @for (int i = 0; i < Model.Slots.Count; i++)
-                        {
-                            <input class="btn-check" type="radio" asp-for="SelectedSlot"
-                                   value="@Model.Slots[i].Value" id="slot@(i)"
-                                   disabled="@(!Model.Slots[i].IsAvailable)" autocomplete="off" />
-                            <label class="btn @(Model.Slots[i].IsAvailable ? "btn-outline-primary" : "btn-outline-secondary disabled") me-2 mb-2"
-                                   for="slot@(i)">
-                                @Model.Slots[i].Label@(Model.Slots[i].IsAvailable ? "" : " (opptatt)")
-                            </label>
-                        }
-                        <span asp-validation-for="SelectedSlot" class="text-danger d-block"></span>
-                        <div class="form-text">Grå tider er allerede booket.</div>
+                    <div class="col-sm-6">
+                        <button type="submit" class="btn btn-outline-primary">Vis ledige tider</button>
                     </div>
-
-                    <div class="row g-3 mb-4">
-                        <div class="col-md-4">
-                            <label asp-for="NumberOfPeople" class="form-label fw-bold"></label>
-                            <input asp-for="NumberOfPeople" type="number" min="1" max="@Model.RoomCapacity" class="form-control" />
-                            <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
-                        </div>
-                        <div class="col-md-8">
-                            <label asp-for="Purpose" class="form-label fw-bold">
-                                Formål <span class="fw-normal text-secondary">(valgfritt)</span>
-                            </label>
-                            <input asp-for="Purpose" class="form-control" placeholder="F.eks. gruppearbeid ITPE3200" />
-                            <span asp-validation-for="Purpose" class="text-danger"></span>
-                        </div>
-                    </div>
-
-                    <hr />
-
-                    <button type="submit" class="btn btn-primary btn-lg">Bekreft reservasjon</button>
-                    <a asp-controller="Rooms" asp-action="Table" class="btn btn-link">Avbryt</a>
-                </div>
+                </form>
             </div>
         </div>
 
-        <div class="col-lg-4">
-            <div class="card">
-                <div class="card-body p-4">
-                    <h5 class="card-title text-primary mb-1">Rom #@Model.RoomId</h5>
-                    <p class="text-secondary">@Model.RoomBuilding, @Model.RoomFloor. etasje</p>
+        <form asp-controller="Bookings" asp-action="Reserve" method="post" class="card">
+            <div class="card-body p-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>
 
-                    <dl class="row mb-0">
-                        <dt class="col-7 fw-normal text-secondary">Kapasitet</dt>
-                        <dd class="col-5 text-end fw-medium">@Model.RoomCapacity plasser</dd>
+                <input type="hidden" asp-for="RoomId" />
+                <input type="hidden" asp-for="Date" />
 
-                        <dt class="col-7 fw-normal text-secondary">Skjerm</dt>
-                        <dd class="col-5 text-end">
-                            <span class="badge @(Model.RoomScreen ? "bg-success" : "bg-secondary")">
-                                @(Model.RoomScreen ? "Ja" : "Nei")
-                            </span>
-                        </dd>
-
-                        <dt class="col-7 fw-normal text-secondary">Whiteboard</dt>
-                        <dd class="col-5 text-end">
-                            <span class="badge @(Model.RoomWhiteboard ? "bg-success" : "bg-secondary")">
-                                @(Model.RoomWhiteboard ? "Ja" : "Nei")
-                            </span>
-                        </dd>
-                    </dl>
-
-                    <hr />
-                    <a asp-controller="Rooms" asp-action="Table">Velg et annet rom</a>
+                <h2 class="h5 mb-3">Ledige tider @Model.Date.ToString("dd.MM.yyyy")</h2>
+                <div class="mb-4">
+                    @for (int i = 0; i < Model.Slots.Count; i++)
+                    {
+                        <input class="btn-check" type="radio" asp-for="SelectedSlot"
+                               value="@Model.Slots[i].Value" id="slot@(i)"
+                               disabled="@(!Model.Slots[i].IsAvailable)" autocomplete="off" />
+                        <label class="btn @(Model.Slots[i].IsAvailable ? "btn-outline-primary" : "btn-outline-secondary disabled") me-2 mb-2"
+                               for="slot@(i)">
+                            @Model.Slots[i].Label@(Model.Slots[i].IsAvailable ? "" : " (opptatt)")
+                        </label>
+                    }
+                    <span asp-validation-for="SelectedSlot" class="text-danger d-block"></span>
                 </div>
+
+                <div class="row g-3 mb-4">
+                    <div class="col-md-4">
+                        <label asp-for="NumberOfPeople" class="form-label fw-bold"></label>
+                        <input asp-for="NumberOfPeople" type="number" min="1"
+                               max="@Model.RoomCapacity" class="form-control" />
+                        <span asp-validation-for="NumberOfPeople" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-8">
+                        <label asp-for="Purpose" class="form-label fw-bold"></label>
+                        <input asp-for="Purpose" class="form-control"
+                               placeholder="For eksempel gruppearbeid" />
+                        <span asp-validation-for="Purpose" class="text-danger"></span>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Bekreft reservasjon</button>
+                <a asp-controller="Rooms" asp-action="Table" class="btn btn-link">Avbryt</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="col-lg-4">
+        <div class="card">
+            <div class="card-body">
+                <h2 class="h5 text-primary">Rom @Model.RoomId</h2>
+                <p>@Model.RoomBuilding, @Model.RoomFloor. etasje</p>
+                <p class="mb-1"><strong>Kapasitet:</strong> @Model.RoomCapacity personer</p>
+                <p class="mb-1"><strong>Skjerm:</strong> @(Model.RoomScreen ? "Ja" : "Nei")</p>
+                <p class="mb-0"><strong>Whiteboard:</strong> @(Model.RoomWhiteboard ? "Ja" : "Nei")</p>
             </div>
         </div>
     </div>
-</form>
+</div>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
