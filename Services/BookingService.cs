@@ -6,10 +6,12 @@ namespace MVC.Services;
 
 public class BookingService
 {
+    // The service uses the database context to read and save bookings.
     private readonly AppDbContext _db;
 
     public BookingService(AppDbContext db) => _db = db;
 
+    // Check for an overlapping booking before a new booking is saved.
     // A booking overlaps when it starts before another booking ends and ends after it starts.
     public async Task<bool> TryCreateBookingAsync(
         int roomId,
@@ -38,6 +40,7 @@ public class BookingService
 
     public Task<List<BookingModel>> GetBookingsForRoomAsync(int roomId, DateTime date)
     {
+        // Return only bookings for the selected room and date.
         DateTime nextDay = date.Date.AddDays(1);
 
         return _db.Bookings
@@ -51,6 +54,7 @@ public class BookingService
 
     public Task<List<BookingModel>> GetBookingsForUserAsync(int userId)
     {
+        // Include room information because it is displayed with each reservation.
         return _db.Bookings
             .AsNoTracking()
             .Include(booking => booking.Room)
@@ -61,6 +65,7 @@ public class BookingService
 
     public async Task<bool> CancelBookingAsync(int bookingId, int userId)
     {
+        // Matching both IDs prevents one user from cancelling another user's booking.
         BookingModel? booking = await _db.Bookings
             .FirstOrDefaultAsync(item => item.BookingId == bookingId && item.UserId == userId);
 

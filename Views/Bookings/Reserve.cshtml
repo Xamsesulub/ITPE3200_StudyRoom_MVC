@@ -14,6 +14,7 @@
 
 <div class="row g-4">
     <div class="col-lg-8">
+        @* Reload the page when the user chooses a date, so availability can be updated. *@
         <div class="card mb-4">
             <div class="card-body">
                 <form asp-controller="Bookings" asp-action="Reserve" method="get"
@@ -33,6 +34,7 @@
             </div>
         </div>
 
+        @* Send the selected time and booking details to the server for validation and saving. *@
         <form asp-controller="Bookings" asp-action="Reserve" method="post" class="card">
             <div class="card-body p-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger mb-3"></div>

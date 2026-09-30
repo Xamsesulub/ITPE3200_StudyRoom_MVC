@@ -13,6 +13,7 @@ public class BookingsController : Controller
     // A temporary user is used until the login page is connected to authentication.
     private const int DemoUserId = 1;
 
+    // The database provides room data, while the service handles booking rules.
     private readonly AppDbContext _context;
     private readonly BookingService _bookingService;
     private readonly ILogger<BookingsController> _logger;
@@ -30,6 +31,7 @@ public class BookingsController : Controller
     [HttpGet]
     public async Task<IActionResult> Reserve(int id, DateTime? date)
     {
+        // Load the room selected on the Find rooms page.
         RoomsModel? room = await _context.Rooms
             .AsNoTracking()
             .FirstOrDefaultAsync(item => item.RoomId == id);
@@ -39,6 +41,7 @@ public class BookingsController : Controller
             return NotFound();
         }
 
+        // Use today's date when the user has not selected a date yet.
         DateTime selectedDate = (date ?? DateTime.Today).Date;
         if (selectedDate < DateTime.Today)
         {
@@ -53,6 +56,7 @@ public class BookingsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Reserve(ReserveRoomViewModel model)
     {
+        // Read the room again from the database instead of trusting room details from the form.
         RoomsModel? room = await _context.Rooms
             .AsNoTracking()
             .FirstOrDefaultAsync(item => item.RoomId == model.RoomId);
@@ -62,6 +66,7 @@ public class BookingsController : Controller
             return NotFound();
         }
 
+        // Check the booking information on the server before saving it.
         if (model.Date.Date < DateTime.Today)
         {
             ModelState.AddModelError(nameof(model.Date), "Datoen kan ikke være i fortiden.");
@@ -91,6 +96,7 @@ public class BookingsController : Controller
 
         if (!ModelState.IsValid)
         {
+            // Rebuild the time slots so the form can be shown again with error messages.
             ReserveRoomViewModel invalidModel = await BuildReserveViewModelAsync(room, model.Date);
             invalidModel.SelectedSlot = model.SelectedSlot;
             invalidModel.NumberOfPeople = model.NumberOfPeople;
@@ -100,6 +106,7 @@ public class BookingsController : Controller
 
         try
         {
+            // The service returns false when another booking uses the same room and time.
             bool created = await _bookingService.TryCreateBookingAsync(
                 room.RoomId,
                 DemoUserId,
@@ -143,6 +150,7 @@ public class BookingsController : Controller
     [HttpGet]
     public async Task<IActionResult> MyBookings()
     {
+        // Split the user's bookings into upcoming and completed reservations.
         List<BookingModel> bookings = await _bookingService.GetBookingsForUserAsync(DemoUserId);
         DateTime now = DateTime.Now;
 
@@ -166,6 +174,7 @@ public class BookingsController : Controller
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Cancel(int id)
     {
+        // Only a booking that belongs to the current user can be cancelled.
         bool cancelled = await _bookingService.CancelBookingAsync(id, DemoUserId);
         TempData[cancelled ? "SuccessMessage" : "ErrorMessage"] = cancelled
             ? "Reservasjonen er avbestilt."
@@ -178,6 +187,7 @@ public class BookingsController : Controller
         RoomsModel room,
         DateTime date)
     {
+        // Compare the room's bookings with one-hour time slots from 08:00 to 20:00.
         List<BookingModel> bookings = await _bookingService
             .GetBookingsForRoomAsync(room.RoomId, date);
 
@@ -217,6 +227,7 @@ public class BookingsController : Controller
         out DateTime start,
         out DateTime end)
     {
+        // Convert a value such as "08:00-09:00" into start and end times.
         start = default;
         end = default;
         if (string.IsNullOrWhiteSpace(selectedSlot))
@@ -240,6 +251,7 @@ public class BookingsController : Controller
 
     private static BookingListItemViewModel ToListItem(BookingModel booking)
     {
+        // Prepare the database model for display on the My bookings page.
         return new BookingListItemViewModel
         {
             BookingId = booking.BookingId,
