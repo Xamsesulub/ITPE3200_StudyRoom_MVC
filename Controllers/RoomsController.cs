@@ -8,10 +8,10 @@ namespace MVC.Controllers;
 
 public class RoomsController : Controller
 {
-    private readonly RoomsDbContext _context;
+    private readonly AppDbContext _context;
     private readonly ILogger<RoomsController> _logger;
 
-    public RoomsController(RoomsDbContext context, ILogger<RoomsController> logger)
+    public RoomsController(AppDbContext context, ILogger<RoomsController> logger)
     {
         _context = context;
         _logger = logger;
