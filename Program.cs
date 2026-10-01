@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.DAL;
+using MVC.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,6 +9,9 @@ builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+// Makes the booking rules available to the booking controller.
+builder.Services.AddScoped<BookingService>();
 
 var app = builder.Build();
 

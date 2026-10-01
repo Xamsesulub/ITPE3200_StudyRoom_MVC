@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace MVC.ViewModels;
 
+// Represents one time option shown on the reservation page.
 public class TimeSlotViewModel
 {
     public string Value { get; set; } = string.Empty;
@@ -11,6 +12,7 @@ public class TimeSlotViewModel
     public bool IsAvailable { get; set; }
 }
 
+// Contains the room information and form fields needed to reserve a room.
 public class ReserveRoomViewModel
 {
     public int RoomId { get; set; }
@@ -30,6 +32,7 @@ public class ReserveRoomViewModel
     public DateTime Date { get; set; } = DateTime.Today;
 
     [Display(Name = "Tidspunkt")]
+    [Required(ErrorMessage = "Velg et tidspunkt.")]
     public string SelectedSlot { get; set; } = string.Empty;
 
     [Display(Name = "Antall personer")]
@@ -43,8 +46,11 @@ public class ReserveRoomViewModel
     public List<TimeSlotViewModel> Slots { get; set; } = new();
 }
 
+// Contains the information needed to display one reservation in a list.
 public class BookingListItemViewModel
 {
+    public int BookingId { get; set; }
+
     public int RoomId { get; set; }
 
     public string RoomBuilding { get; set; } = string.Empty;
@@ -54,6 +60,7 @@ public class BookingListItemViewModel
     public string TimeSlot { get; set; } = string.Empty;
 }
 
+// Keeps upcoming and completed reservations separate on the My bookings page.
 public class MyBookingsViewModel
 {
     public List<BookingListItemViewModel> Upcoming { get; set; } = new();
