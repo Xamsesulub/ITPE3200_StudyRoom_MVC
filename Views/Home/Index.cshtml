@@ -1,8 +1,71 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+@{
+    ViewData["Title"] = "Hjem";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+@* The home page gives users a short introduction and direct access to the main features. *@
+<section class="bg-light border rounded-3 p-4 p-md-5 mb-5">
+    <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+            <span class="badge text-bg-primary mb-3">StudyRoom</span>
+            <h1 class="display-5 fw-bold">Finn og reserver grupperom</h1>
+            <p class="lead text-secondary mb-4">
+                Søk etter grupperom på campus basert på bygg, kapasitet og utstyr,
+                og reserver et ledig tidspunkt.
+            </p>
+            <div class="d-flex flex-wrap gap-2">
+                <a asp-controller="Rooms" asp-action="Table" class="btn btn-primary btn-lg">
+                    Finn rom
+                </a>
+                <a asp-controller="Bookings" asp-action="MyBookings"
+                   class="btn btn-outline-primary btn-lg">
+                    Mine reservasjoner
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section aria-labelledby="how-it-works">
+    <div class="text-center mb-4">
+        <h2 id="how-it-works" class="h3">Slik fungerer det</h2>
+        <p class="text-secondary">Tre enkle steg for å reservere et grupperom.</p>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <span class="badge rounded-pill text-bg-primary mb-3">1</span>
+                    <h3 class="h5">Finn et rom</h3>
+                    <p class="card-text text-secondary mb-0">
+                        Filtrer rom etter bygg, etasje, kapasitet og tilgjengelig utstyr.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <span class="badge rounded-pill text-bg-primary mb-3">2</span>
+                    <h3 class="h5">Velg tidspunkt</h3>
+                    <p class="card-text text-secondary mb-0">
+                        Velg dato og et ledig tidspunkt som passer for deg.
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <span class="badge rounded-pill text-bg-primary mb-3">3</span>
+                    <h3 class="h5">Bekreft reservasjonen</h3>
+                    <p class="card-text text-secondary mb-0">
+                        Bekreft reservasjonen og finn den igjen under Mine reservasjoner.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
