@@ -74,7 +74,7 @@ public class RoomsController : Controller
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Kunne ikke søke etter rom i databasen.");
+            _logger.LogError(exception, "[RoomsController] Kunne ikke søke etter rom i databasen.");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -101,7 +101,7 @@ public class RoomsController : Controller
         }
         catch (Exception exception)
         {
-            _logger.LogError(exception, "Kunne ikke hente rom for administrasjon.");
+            _logger.LogError(exception, "[RoomsController] Kunne ikke hente rom for administrasjon.");
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -110,7 +110,7 @@ public class RoomsController : Controller
     {
         if (id is null)
         {
-            _logger.LogWarning("Detaljsiden ble åpnet uten rom-ID.");
+            _logger.LogWarning("[RoomsController] Detaljsiden ble åpnet uten rom-ID.");
             return BadRequest();
         }
 
@@ -120,7 +120,7 @@ public class RoomsController : Controller
 
         if (room is null)
         {
-            _logger.LogWarning("Rom med ID {RoomId} ble ikke funnet.", id);
+            _logger.LogWarning("[RoomsController] Rom med ID {RoomId} ble ikke funnet.", id);
             return NotFound();
         }
 
@@ -141,7 +141,7 @@ public class RoomsController : Controller
     {
         if (!ModelState.IsValid)
         {
-            _logger.LogWarning("Forsøk på å opprette rom med ugyldige verdier.");
+            _logger.LogWarning("[RoomsController] Forsøk på å opprette rom med ugyldige verdier.");
             return View(room);
         }
 
@@ -151,11 +151,11 @@ public class RoomsController : Controller
         if (roomNumberExists)
         {
             _logger.LogWarning(
-                "Forsøk på å opprette et rom med eksisterende romnummer {RoomId}.",
+                "[RoomsController] Forsøk på å opprette et rom med eksisterende romnummer {RoomId}.",
                 room.RoomId);
             ModelState.AddModelError(
                 nameof(RoomsModel.RoomId),
-                "Romnummeret er allerede registrert.");
+                "[RoomsController] Romnummeret er allerede registrert.");
             return View(room);
         }
 
@@ -165,7 +165,7 @@ public class RoomsController : Controller
             await _context.SaveChangesAsync();
 
             _logger.LogInformation(
-                "Rom {RoomId} i {RoomBuilding} ble opprettet.",
+                "[RoomsController] Rom {RoomId} i {RoomBuilding} ble opprettet.",
                 room.RoomId,
                 room.RoomBuilding);
 
@@ -174,7 +174,7 @@ public class RoomsController : Controller
         }
         catch (DbUpdateException exception)
         {
-            _logger.LogError(exception, "Kunne ikke opprette rom i databasen.");
+            _logger.LogError(exception, "[RoomsController] Kunne ikke opprette rom i databasen.");
             ModelState.AddModelError(
                 string.Empty,
                 "Rommet kunne ikke lagres. Prøv igjen senere.");
@@ -187,7 +187,7 @@ public class RoomsController : Controller
     {
         if (id is null)
         {
-            _logger.LogWarning("Redigeringssiden ble åpnet uten rom-ID.");
+            _logger.LogWarning("[RoomsController] Redigeringssiden ble åpnet uten rom-ID.");
             return BadRequest();
         }
 
@@ -196,7 +196,7 @@ public class RoomsController : Controller
         if (room is null)
         {
             _logger.LogWarning(
-                "Rom med ID {RoomId} ble ikke funnet ved redigering.",
+                "[RoomsController] Rom med ID {RoomId} ble ikke funnet ved redigering.",
                 id);
             return NotFound();
         }
@@ -214,7 +214,7 @@ public class RoomsController : Controller
         if (id != room.RoomId)
         {
             _logger.LogWarning(
-                "Rom-ID i adressen ({RouteId}) var ulik rom-ID i skjemaet ({FormId}).",
+                "[RoomsController] Rom-ID i adressen ({RouteId}) var ulik rom-ID i skjemaet ({FormId}).",
                 id,
                 room.RoomId);
             return BadRequest();
@@ -223,7 +223,7 @@ public class RoomsController : Controller
         if (!ModelState.IsValid)
         {
             _logger.LogWarning(
-                "Forsøk på å oppdatere rom med ID {RoomId} med ugyldige verdier.",
+                "[RoomsController] Forsøk på å oppdatere rom med ID {RoomId} med ugyldige verdier.",
                 room.RoomId);
             return View(room);
         }
@@ -234,7 +234,7 @@ public class RoomsController : Controller
             await _context.SaveChangesAsync();
 
             _logger.LogInformation(
-                "Rom med ID {RoomId} ble oppdatert.",
+                "[RoomsController] Rom med ID {RoomId} ble oppdatert.",
                 room.RoomId);
 
             TempData["SuccessMessage"] = "Rommet ble oppdatert.";
@@ -249,14 +249,14 @@ public class RoomsController : Controller
             {
                 _logger.LogWarning(
                     exception,
-                    "Rom med ID {RoomId} ble slettet før det kunne oppdateres.",
+                    "[RoomsController] Rom med ID {RoomId} ble slettet før det kunne oppdateres.",
                     room.RoomId);
                 return NotFound();
             }
 
             _logger.LogError(
                 exception,
-                "En konflikt oppstod ved oppdatering av rom med ID {RoomId}.",
+                "[RoomsController] En konflikt oppstod ved oppdatering av rom med ID {RoomId}.",
                 room.RoomId);
             ModelState.AddModelError(
                 string.Empty,
@@ -267,7 +267,7 @@ public class RoomsController : Controller
         {
             _logger.LogError(
                 exception,
-                "Kunne ikke oppdatere rom med ID {RoomId}.",
+                "[RoomsController] Kunne ikke oppdatere rom med ID {RoomId}.",
                 room.RoomId);
             ModelState.AddModelError(
                 string.Empty,
@@ -281,7 +281,7 @@ public class RoomsController : Controller
     {
         if (id is null)
         {
-            _logger.LogWarning("Slettesiden ble åpnet uten rom-ID.");
+            _logger.LogWarning("[RoomsController] Slettesiden ble åpnet uten rom-ID.");
             return BadRequest();
         }
 
@@ -292,7 +292,7 @@ public class RoomsController : Controller
         if (room is null)
         {
             _logger.LogWarning(
-                "Rom med ID {RoomId} ble ikke funnet ved sletting.",
+                "[RoomsController] Rom med ID {RoomId} ble ikke funnet ved sletting.",
                 id);
             return NotFound();
         }
@@ -309,7 +309,7 @@ public class RoomsController : Controller
         if (room is null)
         {
             _logger.LogWarning(
-                "Rom med ID {RoomId} ble ikke funnet da sletting ble bekreftet.",
+                "[RoomsController] Rom med ID {RoomId} ble ikke funnet da sletting ble bekreftet.",
                 id);
             return NotFound();
         }
@@ -319,7 +319,7 @@ public class RoomsController : Controller
             _context.Rooms.Remove(room);
             await _context.SaveChangesAsync();
 
-            _logger.LogInformation("Rom med ID {RoomId} ble slettet.", id);
+            _logger.LogInformation("[RoomsController] Rom med ID {RoomId} ble slettet.", id);
             TempData["SuccessMessage"] = "Rommet ble slettet.";
             return RedirectToAction(nameof(Manage));
         }
@@ -327,7 +327,7 @@ public class RoomsController : Controller
         {
             _logger.LogError(
                 exception,
-                "Kunne ikke slette rom med ID {RoomId}.",
+                "[RoomsController] Kunne ikke slette rom med ID {RoomId}.",
                 id);
             TempData["ErrorMessage"] =
                 "Rommet kunne ikke slettes. Det kan være knyttet til en reservasjon.";

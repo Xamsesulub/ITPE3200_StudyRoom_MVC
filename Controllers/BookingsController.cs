@@ -126,7 +126,7 @@ public class BookingsController : Controller
             }
 
             _logger.LogInformation(
-                "User {UserId} reserved room {RoomId} from {StartTime} to {EndTime}.",
+                "[BookingsController] Bruker {UserId} reserverte rom {RoomId} fra {StartTime} til {EndTime}.",
                 DemoUserId,
                 room.RoomId,
                 start,
@@ -137,7 +137,7 @@ public class BookingsController : Controller
         }
         catch (DbUpdateException exception)
         {
-            _logger.LogError(exception, "Could not save a reservation for room {RoomId}.", room.RoomId);
+            _logger.LogError(exception, "Kunne ikke lage en reservasjon for rom {RoomId}.", room.RoomId);
             ModelState.AddModelError(string.Empty, "Reservasjonen kunne ikke lagres. Prøv igjen.");
 
             ReserveRoomViewModel errorModel = await BuildReserveViewModelAsync(room, model.Date);
@@ -179,6 +179,8 @@ public class BookingsController : Controller
         TempData[cancelled ? "SuccessMessage" : "ErrorMessage"] = cancelled
             ? "Reservasjonen er avbestilt."
             : "Reservasjonen ble ikke funnet.";
+
+        _logger.LogWarning("[BookingsController] Booking {id} har blitt fjernet for bruker med id {user}.", id, DemoUserId); 
 
         return RedirectToAction(nameof(MyBookings));
     }
