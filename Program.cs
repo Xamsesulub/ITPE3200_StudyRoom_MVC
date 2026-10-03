@@ -15,6 +15,8 @@ builder.Services.AddDbContext<AppDbContext>(options=>
 // Makes the booking rules available to the booking controller.
 builder.Services.AddScoped<BookingService>();
 
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+
 builder.Services.AddSerilog((services, loggerConfiguration) =>
 {
    loggerConfiguration
