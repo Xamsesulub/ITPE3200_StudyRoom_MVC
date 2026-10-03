@@ -2,7 +2,6 @@ using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
 using MVC.DAL;
 using MVC.Models;
-using MVC.Services;
 using MVC.ViewModels;
 
 namespace MVC.Controllers;
@@ -13,15 +12,18 @@ public class BookingsController : Controller
     private const int DemoUserId = 1;
 
     // The repository handles the buisness logic and the database operations
-    private readonly IBookingRepository _repository;
+    private readonly IBookingRepository _bookingRepository;
+    // We also need the RoomRepository for Reserve
+    private readonly IRoomRepository _roomRepository;
     private readonly ILogger<BookingsController> _logger;
 
     public BookingsController(
         IBookingRepository bookingRepository,
+        IRoomRepository roomRepository,
         ILogger<BookingsController> logger)
     {
-        _context = context;
-        _repository = bookingRepository;
+        _bookingRepository = bookingRepository;
+        _roomRepository = roomRepository;
         _logger = logger;
     }
 
@@ -29,9 +31,7 @@ public class BookingsController : Controller
     public async Task<IActionResult> Reserve(int id, DateTime? date)
     {
         // Load the room selected on the Find rooms page.
-        RoomsModel? room = await _context.Rooms
-            .AsNoTracking()
-            .FirstOrDefaultAsync(item => item.RoomId == id);
+        RoomsModel? room = await _roomRepository.GetByIdReadOnly(id);
 
         if (room is null)
         {
@@ -54,9 +54,8 @@ public class BookingsController : Controller
     public async Task<IActionResult> Reserve(ReserveRoomViewModel model)
     {
         // Read the room again from the database instead of trusting room details from the form.
-        RoomsModel? room = await _context.Rooms
-            .AsNoTracking()
-            .FirstOrDefaultAsync(item => item.RoomId == model.RoomId);
+        RoomsModel? room = await _roomRepository.GetByIdReadOnly(model.RoomId);
+
 
         if (room is null)
         {
@@ -101,54 +100,40 @@ public class BookingsController : Controller
             return View(invalidModel);
         }
 
-        try
+        bool created = await _bookingRepository.TryCreate(room.RoomId, DemoUserId, start, end);
+
+        if (created)
         {
-            // The service returns false when another booking uses the same room and time.
-            bool created = await _bookingService.TryCreateBookingAsync(
-                room.RoomId,
-                DemoUserId,
-                start,
-                end);
-
-            if (!created)
-            {
-                ModelState.AddModelError(
-                    nameof(model.SelectedSlot),
-                    "Rommet er allerede booket i dette tidsrommet.");
-
-                ReserveRoomViewModel unavailableModel = await BuildReserveViewModelAsync(room, model.Date);
-                unavailableModel.NumberOfPeople = model.NumberOfPeople;
-                unavailableModel.Purpose = model.Purpose;
-                return View(unavailableModel);
-            }
-
             _logger.LogInformation(
                 "[BookingsController] Bruker {UserId} reserverte rom {RoomId} fra {StartTime} til {EndTime}.",
-                DemoUserId,
-                room.RoomId,
-                start,
-                end);
+                DemoUserId, room.RoomId, start, end);
 
             TempData["SuccessMessage"] = "Reservasjonen er lagret.";
             return RedirectToAction(nameof(MyBookings));
         }
-        catch (DbUpdateException exception)
-        {
-            _logger.LogError(exception, "Kunne ikke lage en reservasjon for rom {RoomId}.", room.RoomId);
-            ModelState.AddModelError(string.Empty, "Reservasjonen kunne ikke lagres. Prøv igjen.");
 
-            ReserveRoomViewModel errorModel = await BuildReserveViewModelAsync(room, model.Date);
-            errorModel.NumberOfPeople = model.NumberOfPeople;
-            errorModel.Purpose = model.Purpose;
-            return View(errorModel);
-        }
+        ModelState.AddModelError(
+            nameof(model.SelectedSlot),
+            "Rommet kunne ikke reserveres. Det kan være booket allerede.");
+
+        ReserveRoomViewModel failedModel = await BuildReserveViewModelAsync(room, model.Date);
+        failedModel.NumberOfPeople = model.NumberOfPeople;
+        failedModel.Purpose = model.Purpose;
+        return View(failedModel);
     }
+    
 
     [HttpGet]
     public async Task<IActionResult> MyBookings()
     {
         // Split the user's bookings into upcoming and completed reservations.
-        List<BookingModel> bookings = await _bookingService.GetBookingsForUserAsync(DemoUserId);
+        List<BookingModel>? bookings = await _bookingRepository.GetForUser(DemoUserId);
+
+        if (bookings == null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
         DateTime now = DateTime.Now;
 
         var model = new MyBookingsViewModel
@@ -172,12 +157,9 @@ public class BookingsController : Controller
     public async Task<IActionResult> Cancel(int id)
     {
         // Only a booking that belongs to the current user can be cancelled.
-        bool cancelled = await _bookingService.CancelBookingAsync(id, DemoUserId);
-        TempData[cancelled ? "SuccessMessage" : "ErrorMessage"] = cancelled
-            ? "Reservasjonen er avbestilt."
-            : "Reservasjonen ble ikke funnet.";
+        bool cancelled = await _bookingRepository.Cancel(id, DemoUserId);
 
-        _logger.LogWarning("[BookingsController] Booking {id} har blitt fjernet for bruker med id {user}.", id, DemoUserId); 
+        _logger.LogWarning("[BookingsController] Booking {id} har blitt fjernet for bruker med id {user}.", id, DemoUserId);
 
         return RedirectToAction(nameof(MyBookings));
     }
@@ -187,8 +169,7 @@ public class BookingsController : Controller
         DateTime date)
     {
         // Compare the room's bookings with one-hour time slots from 08:00 to 20:00.
-        List<BookingModel> bookings = await _bookingService
-            .GetBookingsForRoomAsync(room.RoomId, date);
+        List<BookingModel> bookings = await _bookingRepository.GetForRoom(room.RoomId, date) ?? new List<BookingModel>();
 
         var slots = new List<TimeSlotViewModel>();
         for (int hour = 8; hour < 20; hour++)

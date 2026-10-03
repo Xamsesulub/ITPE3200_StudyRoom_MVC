@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.Models;
 
+namespace MVC.DAL;
+
 public class BookingRepository : IBookingRepository
 {
     private readonly AppDbContext _db;
@@ -42,7 +44,7 @@ public class BookingRepository : IBookingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "");
-
+            return false;
         }
     }
 
@@ -53,7 +55,7 @@ public class BookingRepository : IBookingRepository
             // Return only bookings for the selected room and date.
             DateTime nextDay = date.Date.AddDays(1);
 
-            return _db.Bookings
+            return await _db.Bookings
                 .AsNoTracking()
                 .Where(booking =>
                     booking.RoomId == roomId &&
@@ -64,6 +66,7 @@ public class BookingRepository : IBookingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "");
+            return null;
 
         }
     }
@@ -73,7 +76,7 @@ public class BookingRepository : IBookingRepository
         try
         {
             // Include room information because it is displayed with each reservation.
-            return _db.Bookings
+            return await _db.Bookings
                 .AsNoTracking()
                 .Include(booking => booking.Room)
                 .Where(booking => booking.UserId == userId)
@@ -83,10 +86,11 @@ public class BookingRepository : IBookingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "");
+            return null;
         }
     }
 
-    public async Task<BookingModel?> Cancel(int bookingId, int userId)
+    public async Task<bool> Cancel(int bookingId, int userId)
     {
         try
         {
@@ -106,7 +110,7 @@ public class BookingRepository : IBookingRepository
         catch (Exception e)
         {
             _logger.LogError(e, "[BookingRepository]");
-            return null;
+            return false;
         }
     }
 }
