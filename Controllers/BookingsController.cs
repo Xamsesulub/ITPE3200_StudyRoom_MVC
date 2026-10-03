@@ -1,4 +1,5 @@
 using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MVC.DAL;
@@ -8,6 +9,7 @@ using MVC.ViewModels;
 
 namespace MVC.Controllers;
 
+[Authorize]
 public class BookingsController : Controller
 {
     // A temporary user is used until the login page is connected to authentication.

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MVC.Models;
 using MVC.ViewModels;
 using MVC.DAL;
+using Microsoft.AspNetCore.Authorization;
 
 namespace MVC.Controllers;
 
@@ -18,6 +19,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
+    [Authorize]
     public async Task<IActionResult> Table(
         string? building,
         int? floor,
@@ -86,6 +88,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Manage()
     {
         try
@@ -128,6 +131,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public IActionResult Create()
     {
         return View();
@@ -135,6 +139,7 @@ public class RoomsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Create(
         [Bind("RoomId,RoomBuilding,RoomFloor,RoomCapacity,RoomScreen,RoomWhiteboard")]
         RoomsModel room)
@@ -183,6 +188,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(int? id)
     {
         if (id is null)
@@ -206,6 +212,7 @@ public class RoomsController : Controller
 
     [HttpPost]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Edit(
         int id,
         [Bind("RoomId,RoomBuilding,RoomFloor,RoomCapacity,RoomScreen,RoomWhiteboard")]
@@ -277,6 +284,7 @@ public class RoomsController : Controller
     }
 
     [HttpGet]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> Delete(int? id)
     {
         if (id is null)
@@ -302,6 +310,7 @@ public class RoomsController : Controller
 
     [HttpPost, ActionName("Delete")]
     [ValidateAntiForgeryToken]
+    [Authorize(Roles = "Admin")]
     public async Task<IActionResult> DeleteConfirmed(int id)
     {
         RoomsModel? room = await _context.Rooms.FindAsync(id);

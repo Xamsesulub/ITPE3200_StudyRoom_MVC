@@ -8,6 +8,9 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/MVC.styles.css" asp-append-version="true" />
+    <script src="~/lib/jquery/dist/jquery.min.js" defer></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js" defer></script>
+    <script src="~/js/site.js" asp-append-version="true" defer></script>
 </head>
 <body>
     <header>
@@ -33,6 +36,7 @@
                             <a class="nav-link text-dark" asp-controller="Rooms" asp-action="Manage">Administrer rom</a>
                         </li>
                     </ul>
+                    <partial name="_LoginPartial" />
                 </div>
             </div>
         </nav>
@@ -40,6 +44,7 @@
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
+            @await RenderSectionAsync("Scripts", required: false)
         </main>
     </div>
 
@@ -48,9 +53,5 @@
             &copy; 2026 - StudyRoom
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

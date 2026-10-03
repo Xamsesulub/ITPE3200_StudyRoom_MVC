@@ -1,3 +1,5 @@
+@model MVC.ViewModels.LoginViewModel
+
 @{
     ViewData["Title"] = "Logg inn";
 }
@@ -63,7 +65,11 @@
         <h1>Logg inn</h1>
 
         <!-- Kun HTML/CSS - ingen validering. Sender deg rett videre til rom-siden. -->
-        <form asp-controller="Rooms" asp-action="Table" method="get">
+        <form asp-action="Login" method="post">
+            <input type="hidden" asp-for="ReturnUrl" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="login-field">
                 <label for="username">Brukernavn</label>
                 <input type="text" id="username" name="username" placeholder="Brukernavn" />
@@ -74,7 +80,16 @@
                 <input type="password" id="password" name="password" placeholder="Passord" />
             </div>
 
+            <div class="mb-3 form-check">
+                <input asp-for="RememberMe" class="form-check-input" />
+                <label asp-for="RememberMe" class="form-check-label"></label>
+            </div>
+
             <button type="submit" class="login-button">Logg inn</button>
         </form>
     </div>
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
