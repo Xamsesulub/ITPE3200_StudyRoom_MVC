@@ -1,6 +1,5 @@
 using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using MVC.DAL;
 using MVC.Models;
 using MVC.Services;
@@ -13,18 +12,16 @@ public class BookingsController : Controller
     // A temporary user is used until the login page is connected to authentication.
     private const int DemoUserId = 1;
 
-    // The database provides room data, while the service handles booking rules.
-    private readonly AppDbContext _context;
-    private readonly BookingService _bookingService;
+    // The repository handles the buisness logic and the database operations
+    private readonly IBookingRepository _repository;
     private readonly ILogger<BookingsController> _logger;
 
     public BookingsController(
-        AppDbContext context,
-        BookingService bookingService,
+        IBookingRepository bookingRepository,
         ILogger<BookingsController> logger)
     {
         _context = context;
-        _bookingService = bookingService;
+        _repository = bookingRepository;
         _logger = logger;
     }
 
