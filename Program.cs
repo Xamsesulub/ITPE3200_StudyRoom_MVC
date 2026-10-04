@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using MVC.DAL;
-using MVC.Services;
 using Serilog;
 using Serilog.Events;
 using Microsoft.AspNetCore.Identity; 
@@ -13,6 +12,11 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<AppDbContext>(options=>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+// Connection to the repositories
+builder.Services.AddScoped<IBookingRepository, BookingRepository>();
+builder.Services.AddScoped<IRoomRepository, RoomRepository>();
+
+// Identity 
 builder.Services.AddDefaultIdentity<IdentityUser>(options =>
 {
     options.SignIn.RequireConfirmedAccount = false; // No email config for local testing
@@ -34,8 +38,6 @@ builder.Services.AddSession(options =>
    options.Cookie.IsEssential = true; 
 });
 
-// Makes the booking rules available to the booking controller.
-builder.Services.AddScoped<BookingService>();
 
 builder.Services.AddSerilog((services, loggerConfiguration) =>
 {
