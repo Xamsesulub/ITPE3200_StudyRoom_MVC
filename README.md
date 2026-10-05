@@ -5,6 +5,7 @@ A group room booking web app built with ASP.NET Core MVC and Entity Framework Co
 ## Prerequisites
 
 - [.NET SDK](https://dotnet.microsoft.com/download) (matching the version in `MVC.csproj`, e.g. .NET 10)
+- Node.js is not used and is not required.
 - EF Core CLI tools:
   ```
   dotnet tool install --global dotnet-ef
@@ -37,3 +38,11 @@ dotnet run
 ```
 
 The console output will show the local URL (`http://localhost:xxxx`). Open it in your browser.
+
+## Prototype login
+
+The login page is a prototype and is not connected to authentication.
+Enter any username and password, then click **Logg inn** to continue.
+Do not use a real password.
+
+All reservations currently belong to the same temporary demo user.
